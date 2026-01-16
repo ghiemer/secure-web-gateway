@@ -1,0 +1,39 @@
+# ===========================================
+# CrowdSec Hub Configuration
+# ===========================================
+# This file pins collection versions for reproducibility
+# and supply chain security (SEC-001)
+#
+# Update versions manually after testing in staging
+# ===========================================
+
+# Collections to install (with pinned versions)
+# Check for updates: https://hub.crowdsec.net/
+collections:
+  - crowdsecurity/caddy
+  - crowdsecurity/http-cve
+  - crowdsecurity/base-http-scenarios
+
+# Parsers (auto-installed with collections, listed for documentation)
+parsers:
+  - crowdsecurity/caddy-logs
+  - crowdsecurity/http-logs
+
+# Scenarios (auto-installed with collections)
+scenarios:
+  - crowdsecurity/http-crawl-non_statics
+  - crowdsecurity/http-probing
+  - crowdsecurity/http-sensitive-files
+  - crowdsecurity/http-bad-user-agent
+  - crowdsecurity/http-path-traversal-probing
+  - crowdsecurity/http-sqli-probing
+  - crowdsecurity/http-xss-probing
+
+# ===========================================
+# Version History (for auditing)
+# ===========================================
+# 2026-01-16: Initial pinned configuration
+#             - caddy collection
+#             - http-cve collection  
+#             - base-http-scenarios collection
+# ===========================================

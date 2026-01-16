@@ -87,6 +87,21 @@ The script automatically performs:
 | `make clean` | Delete certificates and Caddyfile |
 | `make preflight` | Run pre-flight checks manually |
 
+### Maintenance Scripts
+
+| Script | Description |
+|--------|-------------|
+| `./scripts/check-certs.sh` | Check certificate expiry dates |
+| `./scripts/backup.sh` | Create encrypted backup |
+
+```bash
+# Check certificate expiry (warns if < 30 days)
+./scripts/check-certs.sh
+
+# Create encrypted backup
+ENCRYPT=true BACKUP_PASSWORD=secret ./scripts/backup.sh
+```
+
 ## 🔌 Connecting New Projects
 
 See the `project-template/` folder. The principle is always:
@@ -198,4 +213,16 @@ The Makefile handles incremental updates:
 | [project-template/README.md](project-template/README.md) | Detailed guide for connecting projects |
 | [OVERVIEW.md](OVERVIEW.md) | Architecture overview |
 | [SECURITY-REPORT.md](SECURITY-REPORT.md) | Security audit findings |
+| [docs/HOST-HARDENING.md](docs/HOST-HARDENING.md) | Host-level security guide |
+
+---
+
+## ⚠️ Security Audit Disclaimer
+
+The security audit documented in [SECURITY-REPORT.md](SECURITY-REPORT.md) was performed using **GitHub Copilot with Claude Opus 4.5**.
+
+**DISCLAIMER:**  
+This automated security analysis is provided "as is" without warranty of any kind. The findings are intended as guidance and do not constitute a comprehensive professional security audit. **No liability is accepted** for any damages, security breaches, or issues arising from the use of this analysis or the implementation of its recommendations.
+
+For production environments handling sensitive data, a manual security review by qualified security professionals is strongly recommended.
 | [OPTIMISATION.md](OPTIMISATION.md) | Recommended improvements |

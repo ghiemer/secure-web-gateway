@@ -34,10 +34,15 @@ services:
     container_name: gateway_crowdsec
     restart: unless-stopped
     environment:
-      - COLLECTIONS=crowdsecurity/caddy crowdsecurity/http-cve
+      # Collections are defined in crowdsec/hub.yaml for version control (SEC-001)
+      - COLLECTIONS=crowdsecurity/caddy crowdsecurity/http-cve crowdsecurity/base-http-scenarios
       - GID=1000
+      # Disable automatic hub updates for supply chain security
+      - DISABLE_ONLINE_API=false
+      - NO_HUB_UPGRADE=true
     volumes:
       - ./crowdsec/acquis.yaml:/etc/crowdsec/acquis.yaml
+      - ./crowdsec/hub.yaml:/etc/crowdsec/hub.yaml:ro
       - crowdsec_db:/var/lib/crowdsec/data
       - crowdsec_config:/etc/crowdsec
       - shared_logs:/var/log/caddy:ro
@@ -61,6 +66,8 @@ services:
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
       - '--storage.tsdb.retention.time=15d'
+      - '--web.enable-admin-api=false'
+      - '--web.enable-lifecycle=false'
     networks:
       - gateway_net
     user: "65534:65534"
@@ -73,11 +80,11 @@ services:
       retries: 3
 
   grafana:
-    image: grafana/grafana:10.0.0
+    image: grafana/grafana:11.4.0
     container_name: gateway_grafana
     restart: unless-stopped
     environment:
-      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD:?GRAFANA_PASSWORD muss in .env gesetzt sein}
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD:?GRAFANA_PASSWORD must be set in .env}
       - GF_USERS_ALLOW_SIGN_UP=false
       - GF_SECURITY_DISABLE_GRAVATAR=true
       - GF_SECURITY_COOKIE_SECURE=true
