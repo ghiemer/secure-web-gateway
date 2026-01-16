@@ -1,0 +1,18 @@
+{
+    # Internal Only - No Auto HTTPS (Gateway handles it)
+    auto_https off
+}
+
+https://{$DOMAIN} {
+    # Listen on 443 with mTLS
+    # Use the certificate generated for this service (e.g., project-a-server)
+    tls /certs/project-a-server.crt /certs/project-a-server.key {
+        client_auth {
+            mode require_and_verify
+            # Trust the Gateway's CA
+            trusted_ca_cert_file /certs/ca.crt
+        }
+    }
+
+    reverse_proxy app:80
+}

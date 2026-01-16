@@ -1,0 +1,36 @@
+services:
+  # --- Project Caddy (Internal Proxy) ---
+  caddy:
+    image: caddy:2.7-alpine
+    container_name: project_name_caddy
+    restart: unless-stopped
+    environment:
+      - DOMAIN=project-a.example.com
+    volumes:
+      - ./config/Caddyfile:/etc/caddy/Caddyfile
+      - certs:/certs:ro # Mount shared certs
+    networks:
+      - internal
+      - gateway_net # Must join gateway network
+    depends_on:
+      - app
+    security_opt:
+      - no-new-privileges:true
+
+  # --- Your App Services ---
+  app:
+    image: nginx:1.25-alpine # Placeholder
+    networks:
+      - internal
+    security_opt:
+      - no-new-privileges:true
+
+networks:
+  gateway_net:
+    external: true
+  internal:
+    driver: bridge
+
+volumes:
+  certs:
+    external: true

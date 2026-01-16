@@ -1,0 +1,20 @@
+# Secrets
+.env
+
+# Data Directories (if mounted locally)
+caddy_data/
+caddy_config/
+prometheus_data/
+grafana_data/
+crowdsec_db/
+crowdsec_config/
+
+# Logs
+*.log
+access.log
+
+# Generated Certificates (CRITICAL: Do not commit)
+certs/
+
+# Generated Configuration
+gateway/Caddyfile
