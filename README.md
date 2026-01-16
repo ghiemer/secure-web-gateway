@@ -63,9 +63,10 @@ make run
 The script automatically performs:
 1.  ✅ **Pre-Flight Checks** (Validates .env and API keys)
 2.  ✅ **Secrets Generation** (Grafana password if not present)
-3.  ✅ **Certificates** (Root CA 5 years, Server Certs 1 year, ECC-based)
-4.  ✅ **Caddyfile** (Routing, Security Headers, CSP, mTLS, Timeouts)
-5.  ✅ **Docker Stack** (with health checks for all services)
+3.  ✅ **Override File** (Creates docker-compose.override.yml for local customizations)
+4.  ✅ **Certificates** (Root CA 5 years, Server Certs 1 year, ECC-based)
+5.  ✅ **Caddyfile** (Routing, Security Headers, CSP, mTLS, Timeouts)
+6.  ✅ **Docker Stack** (with health checks for all services)
 
 ## 📊 Monitoring Access
 
@@ -94,6 +95,38 @@ See the `project-template/` folder. The principle is always:
 3.  Generate and integrate mTLS certificates.
 4.  Add service to `services.conf` and run `make run`.
 
+## ⚙️ Server-Specific Configuration
+
+The `docker-compose.override.yml` file (created on first `make run`) allows server-specific customizations without modifying the main `docker-compose.yml`:
+
+```yaml
+# Example: Expose Grafana directly for debugging
+services:
+  grafana:
+    ports:
+      - "3000:3000"
+
+# Example: Add resource limits
+  gateway:
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 512M
+
+# Example: Add your own service
+  myapp:
+    image: myapp:latest
+    container_name: myapp_container
+    networks:
+      - gateway_net
+```
+
+This file is:
+- ✅ **Auto-merged** with docker-compose.yml by Docker Compose
+- ✅ **Ignored by git** - your changes stay local
+- ✅ **Preserved on updates** - `git pull` won't affect it
+
 ## 🛡️ Security Features
 
 - **TLS/HTTPS**: Automatic via Let's Encrypt
@@ -111,6 +144,7 @@ When pulling updates from the repository, your local configuration is preserved:
 ### Files that are safe (auto-generated)
 These files are in `.gitignore` and will not cause conflicts:
 - `.env` - Your local environment configuration
+- `docker-compose.override.yml` - Server-specific Docker customizations
 - `certs/` - Generated certificates
 - `gateway/Caddyfile` - Generated from Makefile
 

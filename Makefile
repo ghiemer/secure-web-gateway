@@ -22,7 +22,34 @@ generate-secrets:
 		else \
 			sed -i "s|GRAFANA_PASSWORD=admin|GRAFANA_PASSWORD=$$GRAFANA_PW|" .env; \
 		fi; \
-		echo "Grafana password generated: $$GRAFANA_PW"; \
+		echo "✅ Grafana password generated: $$GRAFANA_PW"; \
+	fi
+	@if [ ! -f docker-compose.override.yml ]; then \
+		echo "Creating docker-compose.override.yml for local customizations..."; \
+		echo "# ===========================================" > docker-compose.override.yml; \
+		echo "# Docker Compose Override - Local Customizations" >> docker-compose.override.yml; \
+		echo "# ===========================================" >> docker-compose.override.yml; \
+		echo "# This file is automatically merged with docker-compose.yml" >> docker-compose.override.yml; \
+		echo "# Use it for server-specific configurations" >> docker-compose.override.yml; \
+		echo "#" >> docker-compose.override.yml; \
+		echo "# DO NOT COMMIT THIS FILE TO GIT!" >> docker-compose.override.yml; \
+		echo "# ===========================================" >> docker-compose.override.yml; \
+		echo "" >> docker-compose.override.yml; \
+		echo "services: {}" >> docker-compose.override.yml; \
+		echo "" >> docker-compose.override.yml; \
+		echo "# Examples:" >> docker-compose.override.yml; \
+		echo "# services:" >> docker-compose.override.yml; \
+		echo "#   grafana:" >> docker-compose.override.yml; \
+		echo "#     ports:" >> docker-compose.override.yml; \
+		echo "#       - \"3000:3000\"  # Expose Grafana for debugging" >> docker-compose.override.yml; \
+		echo "#" >> docker-compose.override.yml; \
+		echo "#   gateway:" >> docker-compose.override.yml; \
+		echo "#     deploy:" >> docker-compose.override.yml; \
+		echo "#       resources:" >> docker-compose.override.yml; \
+		echo "#         limits:" >> docker-compose.override.yml; \
+		echo "#           cpus: '1'" >> docker-compose.override.yml; \
+		echo "#           memory: 512M" >> docker-compose.override.yml; \
+		echo "✅ docker-compose.override.yml created (edit for server-specific config)"; \
 	fi
 
 preflight:

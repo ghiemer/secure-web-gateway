@@ -16,8 +16,12 @@ certs/*
 gateway/Caddyfile
 
 # ===========================================
-# USER-SPECIFIC CONFIG (not tracked)
+# SERVER-SPECIFIC CONFIG (not tracked)
 # ===========================================
+
+# Docker Compose override for local/server customizations
+# Created from docker-compose.override.yml.example on first run
+docker-compose.override.yml
 
 # services.conf is tracked but users can override locally
 # To prevent conflicts on git pull, use:
