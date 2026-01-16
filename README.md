@@ -2,6 +2,8 @@
 
 This infrastructure provides a centralized, secure gateway for all Docker projects, implementing security best practices (CrowdSec, Rate-Limiting, Security Headers) along with monitoring capabilities.
 
+> 🤖 **AI Agents:** For automated deployment instructions, see [docs/AI-AGENT-DEPLOY.md](docs/AI-AGENT-DEPLOY.md)
+
 ## 📂 Structure
 
 *   `gateway/`: Contains Caddy configuration and custom Dockerfile (Caddy + Security Plugins).
@@ -210,19 +212,45 @@ The Makefile handles incremental updates:
 | Document | Description |
 |----------|-------------|
 | [README.md](README.md) | This file - Quick start guide |
-| [project-template/README.md](project-template/README.md) | Detailed guide for connecting projects |
-| [OVERVIEW.md](OVERVIEW.md) | Architecture overview |
-| [SECURITY-REPORT.md](SECURITY-REPORT.md) | Security audit findings |
+| [docs/OVERVIEW.md](docs/OVERVIEW.md) | Architecture overview & diagrams |
+| [docs/SECURITY-REPORT.md](docs/SECURITY-REPORT.md) | Security audit findings & status |
 | [docs/HOST-HARDENING.md](docs/HOST-HARDENING.md) | Host-level security guide |
+| [docs/AI-AGENT-DEPLOY.md](docs/AI-AGENT-DEPLOY.md) | 🤖 AI Agent deployment guide |
+| [project-template/README.md](project-template/README.md) | Guide for connecting new projects |
 
 ---
 
 ## ⚠️ Security Audit Disclaimer
 
-The security audit documented in [SECURITY-REPORT.md](SECURITY-REPORT.md) was performed using **GitHub Copilot with Claude Opus 4.5**.
+The security audit documented in [docs/SECURITY-REPORT.md](docs/SECURITY-REPORT.md) was performed using **GitHub Copilot with Claude Opus 4.5**.
 
 **DISCLAIMER:**  
 This automated security analysis is provided "as is" without warranty of any kind. The findings are intended as guidance and do not constitute a comprehensive professional security audit. **No liability is accepted** for any damages, security breaches, or issues arising from the use of this analysis or the implementation of its recommendations.
 
 For production environments handling sensitive data, a manual security review by qualified security professionals is strongly recommended.
-| [OPTIMISATION.md](OPTIMISATION.md) | Recommended improvements |
+
+---
+
+## 📄 License
+
+MIT License
+
+Copyright (c) 2026
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
