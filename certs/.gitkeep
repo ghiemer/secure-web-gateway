@@ -1,0 +1,9 @@
+# This directory is used to store generated mTLS certificates
+# It is created automatically by `make certs`
+# 
+# Contents (after running make):
+# - ca.crt / ca.key         - Root CA certificate
+# - gateway-client.crt/key  - Client certificate for gateway
+# - <service>.crt/key       - Server certificates for each service
+#
+# ⚠️ DO NOT COMMIT THESE FILES TO GIT!

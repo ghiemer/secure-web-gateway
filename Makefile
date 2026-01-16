@@ -128,13 +128,51 @@ caddyfile:
 	@echo "        Referrer-Policy \"strict-origin-when-cross-origin\"" >> gateway/Caddyfile
 	@echo "        Permissions-Policy \"geolocation=(), microphone=(), camera=()\"" >> gateway/Caddyfile
 	@echo "        Content-Security-Policy \"default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'\"" >> gateway/Caddyfile
-	@echo "        Server \"Gateway\"" >> gateway/Caddyfile
+	@echo "        -Server" >> gateway/Caddyfile
 	@echo "    }" >> gateway/Caddyfile
 	@echo "}" >> gateway/Caddyfile
-
-# ... (Previous context omitted) ...
-
-	@# Methods Endpoint (Internal Only)
+	@echo "" >> gateway/Caddyfile
+	@echo "# --- Rate Limiting Snippet ---" >> gateway/Caddyfile
+	@echo "(rate_limit) {" >> gateway/Caddyfile
+	@echo "    rate_limit {" >> gateway/Caddyfile
+	@echo "        zone dynamic_zone {remote_host} 10r/s" >> gateway/Caddyfile
+	@echo "    }" >> gateway/Caddyfile
+	@echo "}" >> gateway/Caddyfile
+	@echo "" >> gateway/Caddyfile
+	@echo "# --- Logging Snippet ---" >> gateway/Caddyfile
+	@echo "(logging) {" >> gateway/Caddyfile
+	@echo "    log {" >> gateway/Caddyfile
+	@echo "        output file /var/log/caddy/access.log {" >> gateway/Caddyfile
+	@echo "            roll_size 10MB" >> gateway/Caddyfile
+	@echo "            roll_keep 5" >> gateway/Caddyfile
+	@echo "            roll_keep_for 168h" >> gateway/Caddyfile
+	@echo "        }" >> gateway/Caddyfile
+	@echo "        format json" >> gateway/Caddyfile
+	@echo "    }" >> gateway/Caddyfile
+	@echo "}" >> gateway/Caddyfile
+	@echo "" >> gateway/Caddyfile
+	@# Loop over services.conf for site blocks
+	@while read -r name domain host port; do \
+		[[ "$$name" =~ ^#.* ]] && continue; \
+		[[ -z "$$name" ]] && continue; \
+		echo "$$domain {" >> gateway/Caddyfile; \
+		echo "    import crowdsec" >> gateway/Caddyfile; \
+		echo "    import security_headers" >> gateway/Caddyfile; \
+		echo "    import rate_limit" >> gateway/Caddyfile; \
+		echo "    import logging" >> gateway/Caddyfile; \
+		echo "" >> gateway/Caddyfile; \
+		echo "    reverse_proxy https://$$host:$$port {" >> gateway/Caddyfile; \
+		echo "        header_up Host {upstream_hostport}" >> gateway/Caddyfile; \
+		echo "        transport http {" >> gateway/Caddyfile; \
+		echo "            tls" >> gateway/Caddyfile; \
+		echo "            tls_client_auth /etc/caddy/certs/gateway-client.crt /etc/caddy/certs/gateway-client.key" >> gateway/Caddyfile; \
+		echo "            tls_trusted_ca_certs /etc/caddy/certs/ca.crt" >> gateway/Caddyfile; \
+		echo "        }" >> gateway/Caddyfile; \
+		echo "    }" >> gateway/Caddyfile; \
+		echo "}" >> gateway/Caddyfile; \
+		echo "" >> gateway/Caddyfile; \
+	done < services.conf
+	@# Metrics Endpoint (Internal Only)
 	@echo "127.0.0.1:2019 {" >> gateway/Caddyfile
 	@echo "    metrics" >> gateway/Caddyfile
 	@echo "}" >> gateway/Caddyfile

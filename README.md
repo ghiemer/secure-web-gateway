@@ -103,3 +103,65 @@ See the `project-template/` folder. The principle is always:
 - **Security Headers**: HSTS, CSP, X-Frame-Options, etc.
 - **Container Hardening**: `no-new-privileges` on all containers
 - **Health Checks**: Automatic monitoring of all services
+
+## 🔄 Updating the Gateway
+
+When pulling updates from the repository, your local configuration is preserved:
+
+### Files that are safe (auto-generated)
+These files are in `.gitignore` and will not cause conflicts:
+- `.env` - Your local environment configuration
+- `certs/` - Generated certificates
+- `gateway/Caddyfile` - Generated from Makefile
+
+### Protecting services.conf from conflicts
+
+If you've customized `services.conf`, protect it from git conflicts:
+
+```bash
+# Tell git to ignore local changes to services.conf
+git update-index --skip-worktree services.conf
+
+# To re-enable tracking (if you want to commit changes)
+git update-index --no-skip-worktree services.conf
+```
+
+### Update Workflow
+
+```bash
+# 1. Pull latest changes
+git pull origin main
+
+# 2. Regenerate configuration (certificates are kept if valid)
+make caddyfile
+
+# 3. Restart with new configuration
+make run
+```
+
+### Adding a New Service (After Update)
+
+When adding a new project after updating:
+
+```bash
+# 1. Add entry to services.conf
+echo "myapp    myapp.example.com    myapp_caddy    443" >> services.conf
+
+# 2. Generate certificate and rebuild Caddyfile
+make run
+```
+
+The Makefile handles incremental updates:
+- **Existing certificates** are preserved (only new services get new certs)
+- **Caddyfile** is regenerated on each `make caddyfile` or `make run`
+- **Docker containers** are updated with `--remove-orphans`
+
+## 📚 Documentation
+
+| Document | Description |
+|----------|-------------|
+| [README.md](README.md) | This file - Quick start guide |
+| [project-template/README.md](project-template/README.md) | Detailed guide for connecting projects |
+| [OVERVIEW.md](OVERVIEW.md) | Architecture overview |
+| [SECURITY-REPORT.md](SECURITY-REPORT.md) | Security audit findings |
+| [OPTIMISATION.md](OPTIMISATION.md) | Recommended improvements |

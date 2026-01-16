@@ -1,0 +1,4 @@
+# This directory stores automated backups
+# Created by scripts/backup.sh
+#
+# ⚠️ DO NOT COMMIT BACKUP FILES TO GIT!
