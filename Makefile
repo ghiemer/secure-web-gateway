@@ -1,7 +1,8 @@
 include .env
 
 # Directories
-CERT_DIR := certs
+CERTS_PATH ?= ./certs
+CERT_DIR := $(CERTS_PATH)
 DATA_DIR := data
 
 # Shell settings

@@ -14,7 +14,7 @@ services:
       - gateway_net
     volumes:
       - ./gateway/Caddyfile:/etc/caddy/Caddyfile
-      - ./certs:/etc/caddy/certs:ro
+      - ${CERTS_PATH:-./certs}:/etc/caddy/certs:ro
       - caddy_data:/data
       - caddy_config:/config
       - shared_logs:/var/log/caddy
