@@ -59,7 +59,7 @@ preflight:
 		exit 1; \
 	fi
 	@# Load .env variables for check
-	@export $$(cat .env | xargs) && \
+	@set -a; source .env; set +a; \
 	if [ -z "$$CROWDSEC_BOUNCER_API_KEY" ]; then \
 		echo "❌ ERROR: CROWDSEC_BOUNCER_API_KEY is not set!"; \
 		echo "Please add or generate the key."; \
