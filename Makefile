@@ -205,36 +205,7 @@ caddyfile:
 		echo "" >> gateway/Caddyfile; \
 	done < services.conf
 	@# Metrics Endpoint (Internal Only)
-	@# Metrics Endpoint (Internal Only) - Handled by global option
-	@echo "" >> gateway/Caddyfile
 	@# Monitoring Block (Disabled for Lite Mode)
-	@# if [ ! -z "$(MONITORING_DOMAIN)" ]; then \
-	@# 	echo "" >> gateway/Caddyfile; \
-	@# 	echo "$(MONITORING_DOMAIN) {" >> gateway/Caddyfile; \
-	@# 	echo "    import crowdsec" >> gateway/Caddyfile; \
-	@# 	echo "    import security_headers" >> gateway/Caddyfile; \
-	@# 	# echo "    import rate_limit" >> gateway/Caddyfile; \
-	@# 	echo "    import logging" >> gateway/Caddyfile; \
-	@# 	echo "" >> gateway/Caddyfile; \
-	@# 	echo "    # Request body size limit (SEC-003)" >> gateway/Caddyfile; \
-	@# 	echo "    request_body {" >> gateway/Caddyfile; \
-	@# 	echo "        max_size 10MB" >> gateway/Caddyfile; \
-	@# 	echo "    }" >> gateway/Caddyfile; \
-	@# 	echo "" >> gateway/Caddyfile; \
-	@# 	if [ ! -z "$(MONITORING_ALLOWED_IPS)" ]; then \
-	@# 		echo "    # IP Whitelist for monitoring access (SEC-005)" >> gateway/Caddyfile; \
-	@# 		echo "    @blocked not remote_ip $(MONITORING_ALLOWED_IPS)" >> gateway/Caddyfile; \
-	@# 		echo "    respond @blocked 403" >> gateway/Caddyfile; \
-	@# 		echo "" >> gateway/Caddyfile; \
-	@# 	fi; \
-	@# 	echo "    reverse_proxy gateway_grafana:3000" >> gateway/Caddyfile; \
-	@# 	echo "}" >> gateway/Caddyfile; \
-	@# 	if [ ! -z "$(MONITORING_ALLOWED_IPS)" ]; then \
-	@# 		echo "Monitoring configured at: $(MONITORING_DOMAIN) (IP restricted)"; \
-	@# 	else \
-	@# 		echo "⚠️  Monitoring configured at: $(MONITORING_DOMAIN) (NO IP restriction - set MONITORING_ALLOWED_IPS in .env)"; \
-	@# 	fi; \
-	@# fi
 	@echo "Hardened Caddyfile created in gateway/."
 
 # 3. Start
