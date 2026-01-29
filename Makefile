@@ -185,7 +185,7 @@ caddyfile:
 		echo "$$domain {" >> gateway/Caddyfile; \
 		echo "    import crowdsec" >> gateway/Caddyfile; \
 		echo "    import security_headers" >> gateway/Caddyfile; \
-		echo "    import rate_limit" >> gateway/Caddyfile; \
+		echo "    # import rate_limit" >> gateway/Caddyfile; \
 		echo "    import logging" >> gateway/Caddyfile; \
 		echo "" >> gateway/Caddyfile; \
 		echo "    # Request body size limit (SEC-003)" >> gateway/Caddyfile; \
