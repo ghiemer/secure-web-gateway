@@ -162,7 +162,7 @@ caddyfile:
 	@echo "# --- Rate Limiting Snippet ---" >> gateway/Caddyfile
 	@echo "(rate_limit) {" >> gateway/Caddyfile
 	@echo "    rate_limit {" >> gateway/Caddyfile
-	@echo "        zone dynamic_zone {remote_host} 1s 10" >> gateway/Caddyfile
+	@echo "        zone dynamic_zone {remote_host} 10s 100" >> gateway/Caddyfile
 	@echo "    }" >> gateway/Caddyfile
 	@echo "}" >> gateway/Caddyfile
 	@echo "" >> gateway/Caddyfile
@@ -205,9 +205,7 @@ caddyfile:
 		echo "" >> gateway/Caddyfile; \
 	done < services.conf
 	@# Metrics Endpoint (Internal Only)
-	@echo "127.0.0.1:2019 {" >> gateway/Caddyfile
-	@echo "    metrics" >> gateway/Caddyfile
-	@echo "}" >> gateway/Caddyfile
+	@# Metrics Endpoint (Internal Only) - Handled by global option
 	@echo "" >> gateway/Caddyfile
 	@# Monitoring Block (if configured)
 	@if [ ! -z "$(MONITORING_DOMAIN)" ]; then \
