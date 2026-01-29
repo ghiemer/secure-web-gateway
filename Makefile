@@ -119,8 +119,8 @@ caddyfile:
 	@echo "    grace_period 5s" >> gateway/Caddyfile
 	@echo "" >> gateway/Caddyfile
 	@echo "    # Metrics for Prometheus and Timeouts" >> gateway/Caddyfile
+	@echo "    metrics" >> gateway/Caddyfile
 	@echo "    servers {" >> gateway/Caddyfile
-	@echo "        metrics" >> gateway/Caddyfile
 	@echo "        timeouts {" >> gateway/Caddyfile
 	@echo "            read_body 30s" >> gateway/Caddyfile
 	@echo "            read_header 10s" >> gateway/Caddyfile
@@ -162,7 +162,7 @@ caddyfile:
 	@echo "# --- Rate Limiting Snippet ---" >> gateway/Caddyfile
 	@echo "(rate_limit) {" >> gateway/Caddyfile
 	@echo "    rate_limit {" >> gateway/Caddyfile
-	@echo "        zone dynamic_zone {remote_host} 10r/s" >> gateway/Caddyfile
+	@echo "        zone dynamic_zone {remote_host} 1s 10" >> gateway/Caddyfile
 	@echo "    }" >> gateway/Caddyfile
 	@echo "}" >> gateway/Caddyfile
 	@echo "" >> gateway/Caddyfile
