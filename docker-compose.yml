@@ -55,57 +55,56 @@ services:
       interval: 30s
       timeout: 10s
       retries: 3
+  # prometheus:
+  #   image: prom/prometheus:v2.45.0
+  #   container_name: gateway_prometheus
+  #   restart: unless-stopped
+  #   volumes:
+  #     - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+  #     - prometheus_data:/prometheus
+  #   command:
+  #     - '--config.file=/etc/prometheus/prometheus.yml'
+  #     - '--storage.tsdb.retention.time=15d'
+  #   networks:
+  #     - gateway_net
+  #   user: "65534:65534"
+  #   security_opt:
+  #     - no-new-privileges:true
+  #   healthcheck:
+  #     test: [ "CMD", "wget", "--spider", "-q", "http://localhost:9090/-/healthy" ]
+  #     interval: 30s
+  #     timeout: 10s
+  #     retries: 3
 
-  prometheus:
-    image: prom/prometheus:v2.45.0
-    container_name: gateway_prometheus
-    restart: unless-stopped
-    volumes:
-      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
-      - prometheus_data:/prometheus
-    command:
-      - '--config.file=/etc/prometheus/prometheus.yml'
-      - '--storage.tsdb.retention.time=15d'
-    networks:
-      - gateway_net
-    user: "65534:65534"
-    security_opt:
-      - no-new-privileges:true
-    healthcheck:
-      test: [ "CMD", "wget", "--spider", "-q", "http://localhost:9090/-/healthy" ]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-
-  grafana:
-    image: grafana/grafana:11.4.0
-    container_name: gateway_grafana
-    restart: unless-stopped
-    environment:
-      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD:?GRAFANA_PASSWORD must be set in .env}
-      - GF_USERS_ALLOW_SIGN_UP=false
-      - GF_SECURITY_DISABLE_GRAVATAR=true
-      - GF_SECURITY_COOKIE_SECURE=true
-      - GF_SECURITY_COOKIE_SAMESITE=strict
-      - GF_SECURITY_STRICT_TRANSPORT_SECURITY=true
-      - GF_SECURITY_X_CONTENT_TYPE_OPTIONS=true
-      - GF_SECURITY_X_XSS_PROTECTION=false
-      - GF_AUTH_ANONYMOUS_ENABLED=false
-      - GF_AUTH_DISABLE_LOGIN_FORM=false
-    volumes:
-      - grafana_data:/var/lib/grafana
-      - ./grafana/provisioning:/etc/grafana/provisioning
-    networks:
-      - gateway_net
-    depends_on:
-      - prometheus
-    security_opt:
-      - no-new-privileges:true
-    healthcheck:
-      test: [ "CMD", "wget", "--spider", "-q", "http://localhost:3000/api/health" ]
-      interval: 30s
-      timeout: 10s
-      retries: 3
+  # grafana:
+  #   image: grafana/grafana:11.4.0
+  #   container_name: gateway_grafana
+  #   restart: unless-stopped
+  #   environment:
+  #     - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD:?GRAFANA_PASSWORD must be set in .env}
+  #     - GF_USERS_ALLOW_SIGN_UP=false
+  #     - GF_SECURITY_DISABLE_GRAVATAR=true
+  #     - GF_SECURITY_COOKIE_SECURE=true
+  #     - GF_SECURITY_COOKIE_SAMESITE=strict
+  #     - GF_SECURITY_STRICT_TRANSPORT_SECURITY=true
+  #     - GF_SECURITY_X_CONTENT_TYPE_OPTIONS=true
+  #     - GF_SECURITY_X_XSS_PROTECTION=false
+  #     - GF_AUTH_ANONYMOUS_ENABLED=false
+  #     - GF_AUTH_DISABLE_LOGIN_FORM=false
+  #   volumes:
+  #     - grafana_data:/var/lib/grafana
+  #     - ./grafana/provisioning:/etc/grafana/provisioning
+  #   networks:
+  #     - gateway_net
+  #   depends_on:
+  #     # - prometheus
+  #   security_opt:
+  #     - no-new-privileges:true
+  #   healthcheck:
+  #     test: [ "CMD", "wget", "--spider", "-q", "http://localhost:3000/api/health" ]
+  #     interval: 30s
+  #     timeout: 10s
+  #     retries: 3
 
 networks:
   gateway_net:
@@ -117,5 +116,5 @@ volumes:
   crowdsec_db:
   crowdsec_config:
   shared_logs:
-  prometheus_data:
-  grafana_data:
+    # prometheus_data:
+    # grafana_data:
